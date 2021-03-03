@@ -1,7 +1,7 @@
 <SideNav bind:isOpen={isSideNavOpen}>
     <SideNavItems>
         {#each albumType.allType as { id, name, children }, i}
-            <SideNavMenu text={name}>
+            <SideNavMenu expanded={children.some(item=>item.index == activeTab)} text={name}>
                 {#each children as { index, name }, i}
                     <SideNavMenuItem isSelected={activeTab==index.toString()} href={'/#/'+index} text={name}/>
                 {/each}

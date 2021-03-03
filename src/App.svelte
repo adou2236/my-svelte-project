@@ -72,7 +72,7 @@
 </script>
 
 <Header
-        persistentHamburgerMenu={true}
+        persistentHamburgerMenu={false}
         company="IBM"
         platformName="Carbon Svelte"
         bind:isSideNavOpen>
@@ -122,7 +122,7 @@
 <Content style="background: transparent">
     <Grid>
         <Row>
-            <Column xlg="{{ span: 8, offset: 0 }}" md="{{ span: 8, offset: 0 }}">
+            <Column>
                 <Router {routes}/>
             </Column>
         </Row>

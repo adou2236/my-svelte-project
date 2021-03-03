@@ -8,6 +8,8 @@
 />
 <script>
     import {PaginationNav} from 'carbon-components-svelte'
+    import { createEventDispatcher } from 'svelte';
+    const dispatch = createEventDispatcher();
 
     export let currentPage = 1
     export let totalItems = 0
@@ -15,6 +17,8 @@
     $: total = Math.floor(totalItems/pageSize)
 
     function handleChange(e) {
-        currentPage = e.detail.page+1
+        dispatch('turnPage', {
+            page: e.detail.page+1
+        });
     }
 </script>
