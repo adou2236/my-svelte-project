@@ -3,17 +3,19 @@
     <p>{currentPage}</p>
     <a href="/details" use:link>二次跳转</a>
     <div class="album-area">
-        {#each pageData as data, i}
-            <Albums on:data={i}></Albums>
+        {#each pageData as {album}, i}
+            <Albums data={album} index={i}/>
         {/each}
     </div>
-    <CusotmerPagination
-            class="pagination"
-            bind:currentPage={currentPage}
-            on:turnPage={handlePage}
-            totalItems={totalItems}
-            pageSize="15"
-    />
+    <div class="pagination">
+        <CusotmerPagination
+                bind:currentPage={currentPage}
+                on:turnPage={handlePage}
+                totalItems={totalItems}
+                pageSize="15"
+        />
+    </div>
+
 
 </div>
 <script>
@@ -48,7 +50,7 @@
 
     async function handleSearch(page) {
         let data = {
-            'page_size': 15,
+            'page_size': 20,
             'id': 4,
             'page': page
         }
@@ -62,7 +64,7 @@
 <style>
     .pagination{
         position: absolute;
-        bottom: 20px;
+        bottom: 0;
         left: 50%;
         transform:translateX(-50%);
     }

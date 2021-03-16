@@ -4,7 +4,6 @@
         page={currentPage-1}
         total={total}
         on:change={handleChange}
-
 />
 <script>
     import {PaginationNav} from 'carbon-components-svelte'
