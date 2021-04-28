@@ -1,8 +1,8 @@
 <div>
-    主页<strong>{params.id}</strong>
-    <p>{currentPage}</p>
-    <a href="/details" use:link>二次跳转</a>
     <div class="album-area">
+        {#if loading}
+            <Loading />
+        {/if}
         {#each pageData as {album}, i}
             <Albums data={album} index={i}/>
         {/each}
@@ -15,12 +15,10 @@
                 pageSize="15"
         />
     </div>
-
-
 </div>
 <script>
     import {link} from 'svelte-spa-router'
-    import {Button} from 'carbon-components-svelte'
+    import {Loading} from 'carbon-components-svelte'
     import {getAlbumList} from "../api";
     import CusotmerPagination from "../components/CusotmerPagination.svelte";
     import {onMount} from 'svelte'
@@ -31,42 +29,46 @@
     let currentPage = 1
     let totalItems = 0
     let pageData = []
+    let loading = false
 
     onMount(() => {
-        handleSearch(1)
+        handleSearch(id,currentPage)
     })
 
+    $: id = params.id
     $:{
-        console.log("当前页码是a",currentPage)
+        loading = true
+        handleSearch(id,currentPage)
     }
 
+    function showAlbum(data) {
+        console.log(data)
+    }
     function handlePage(e){
         if(e.detail.page!==currentPage){
             currentPage = e.detail.page
-            handleSearch(currentPage)
         }
     }
 
 
-    async function handleSearch(page) {
+    async function handleSearch() {
         let data = {
             'page_size': 20,
-            'id': 4,
-            'page': page
+            'id': id,
+            'page': currentPage
         }
         let res = await getAlbumList(data)
         pageData = res.data.albumInfoList
         totalItems = res.data.total
+        loading = false
     }
 
 </script>
 
 <style>
     .pagination{
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform:translateX(-50%);
+        display: flex;
+        justify-content: center;
     }
     .album-area{
         display: flex;

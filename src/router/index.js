@@ -5,8 +5,7 @@ import Details from '../views/Details.svelte'
 import NotFind from '../views/NotFind.svelte'
 
 export const routes = {
-    '/':Home,
-    '/details': Details,
+    '/details/:id': Details,
     '/:id': Home,
     '*': NotFind
 }

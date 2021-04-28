@@ -3,7 +3,8 @@
         {#each albumType.allType as { id, name, children }, i}
             <SideNavMenu expanded={children.some(item=>item.index == activeTab)} text={name}>
                 {#each children as { index, name }, i}
-                    <SideNavMenuItem isSelected={activeTab==index.toString()} href={'/#/'+index} text={name}/>
+                    <SideNavMenuItem isSelected={activeTab==index.toString()}
+                                     href={'/#/'+index} text={name}/>
                 {/each}
             </SideNavMenu>
         {/each}
@@ -19,7 +20,13 @@
     import albumType from '../accect/json/albumType.json'
     import {location} from "svelte-spa-router";
 
-    export let isSideNavOpen = true;
+    export let isSideNavOpen = false;
 
     $: activeTab = $location.slice($location.indexOf('/')+1)
 </script>
+
+<style lang="scss" global>
+    .bx--side-nav__navigation{
+        height:calc(100% - 128px)
+    }
+</style>
