@@ -4,28 +4,20 @@
     <div slot="skip-to-content">
         <SkipToContent />
     </div>
-    <!--    <HeaderNav>-->
-    <!--        <HeaderNavItem href="/" text="Link 1" />-->
-    <!--        <HeaderNavItem href="/" text="Link 2" />-->
-    <!--        <HeaderNavItem href="/" text="Link 3" />-->
-    <!--        <HeaderNavMenu text="Menu">-->
-    <!--            <HeaderNavItem href="/" text="Link 1" />-->
-    <!--            <HeaderNavItem href="/" text="Link 2" />-->
-    <!--            <HeaderNavItem href="/" text="Link 3" />-->
-    <!--        </HeaderNavMenu>-->
-    <!--    </HeaderNav>-->
     <HeaderUtilities>
         <HeaderAction>
-            <Select size="sm"
-                    inline
-                    hideLabel
-                    labelText="Carbon theme"
-                    bind:selected={theme}>
-                <SelectItem value="white" text="White" />
-                <SelectItem value="g10" text="Gray 10" />
-                <SelectItem value="g90" text="Gray 90" />
-                <SelectItem value="g100" text="Gray 100" />
-            </Select>
+            <label>
+                <Select size="sm"
+                        inline
+                        hideLabel
+                        labelText="Carbon theme"
+                        bind:selected={theme}>
+                    <SelectItem value="white" text="White" />
+                    <SelectItem value="g10" text="Gray 10" />
+                    <SelectItem value="g90" text="Gray 90" />
+                    <SelectItem value="g100" text="Gray 100" />
+                </Select>
+            </label>
         </HeaderAction>
         <HeaderSearch
                 bind:ref
@@ -41,18 +33,20 @@
         />
     </HeaderUtilities>
 </Header>
-<LeftNav isSideNavOpen={isSideNavOpen}/>
-<Content style="background: transparent">
-    <Grid>
-        <Row>
-            <Column>
-                <Router {routes}/>
-            </Column>
-        </Row>
-    </Grid>
-</Content>
+<div class="body">
+    <LeftNav class="left-nav" isSideNavOpen={isSideNavOpen}/>
+    <Content class="inner-content">
+        <Grid>
+            <Row>
+                <Column>
+                    <Router {routes}/>
+                </Column>
+            </Row>
+        </Grid>
+        <MiniPlayer class="mini-player"/>
+    </Content>
+</div>
 
-<!--<MiniPlayer/>-->
 <script>
     import {
         Header,
@@ -132,8 +126,16 @@
         display: flex;
         align-items: center;
     }
-    .inner-content{
-        position: relative;
-        padding-bottom:90px
+    .body{
+        padding-bottom: 80px;
+        /deep/ .inner-content{
+            background: transparent;
+            padding-top: 80px;
+        }
+    }
+    .mini-player{
+        position: absolute;
+        left: 50%;
+        bottom: 0;
     }
 </style>
