@@ -41,14 +41,13 @@
         margin: 0 0 1rem 1rem;
         position: relative;
         overflow: hidden;
-    }
-    .cover{
+      .cover{
         width: 100%;
         height: 100%;
         object-fit: contain;
         cursor: pointer;
-    }
-    .name{
+      }
+      .name{
         position: absolute;
         bottom: 0;
         left: 0;
@@ -62,9 +61,11 @@
         background: black;
         z-index: 2;
         color: white;
-    }
-    .fake-cover{
+      }
+      .fake-cover{
         width: 100%;
         height: 100%;
+      }
     }
+
 </style>

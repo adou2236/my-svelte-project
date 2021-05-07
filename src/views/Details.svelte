@@ -26,10 +26,17 @@
         {/each}
         <BreadcrumbItem isCurrentPage>{baseInfo.name}</BreadcrumbItem>
     </Breadcrumb>
-    <div class="shows-header">节目列表({totalItems})</div>
+    <div class="shows-header">节目列表({totalItems})
+        <span class="play-all"
+              on:click={selectAll}>
+            全部播放{$play_list.length}</span>
+    </div>
     <div class="list">
         {#each searchData as {show}, i}
-            <ListItem show={show}
+            <ListItem
+                    on:sequence={handleSequence}
+                    isInPlaying={$music_info.id === show.showID}
+                    show={show}
                     index={i}/>
         {/each}
     </div>
@@ -38,8 +45,7 @@
                 bind:currentPage={currentPage}
                 on:turnPage={handlePage}
                 totalItems={totalItems}
-                pageSize={pageSize}
-        />
+                pageSize={pageSize}/>
     </div>
 </div>
 
@@ -49,7 +55,7 @@
     import {Loading, ImageLoader, InlineLoading, Breadcrumb, BreadcrumbItem} from 'carbon-components-svelte'
     import CusotmerPagination from "../components/CusotmerPagination.svelte";
     import ListItem from "../components/ListItem.svelte";
-    import {deepCopy} from "../func";
+    import {music_info,play_list} from '../store'
 
 
 
@@ -71,7 +77,6 @@
         let firstPage = showsList.slice(0,pageSize)
         searchData = await searchById(firstPage)
         baseInfo = searchData[0].album
-        console.log(baseInfo)
         loading = false
 
     })
@@ -81,7 +86,36 @@
     $:coverUrl = baseInfo.cover ? baseInfo.cover.urls[0].url : '' || ''
 
 
+    function musicDataFormatter(arr){
+        let result = []
+        for(let i=0;i<arr.length;i++){
+            let obj = {
+                id:arr[i].show.showID,
+                name:arr[i].show.name,
+                url:arr[i].show.audioURL.urls[0].url,
+                cover:coverUrl
+            }
+            result.push(obj)
+        }
+        return result
+    }
 
+    async function selectAll(){
+        let result = []
+        result = await musicDataFormatter(searchData)
+        music_info.set(result[0])
+        play_list.arrayPush(result)
+    }
+    function handleSequence(e){
+        let data = {
+            id:e.detail.data.showID,
+            name:e.detail.data.name,
+            url:e.detail.data.audioURL.urls[0].url,
+            cover: coverUrl
+        }
+        music_info.set(data)
+        play_list.arrayPush([data])
+    }
     async function showInit() {
         let data = {
             id : params.id
@@ -128,7 +162,6 @@
                 height: 100%;
                 text-align: center;
                 overflow: hidden;
-                z-index: -1;
                 -webkit-filter: blur(20px);
                 -moz-filter: blur(20px);
                 -ms-filter: blur(20px);
@@ -143,7 +176,6 @@
                 right: 0;
                 top: 0;
                 bottom: 0;
-                z-index: -1;
                 background: rgba(0,0,0,.4);
                 -webkit-filter: blur(20px);
                 -moz-filter: blur(20px);
@@ -153,8 +185,10 @@
             .cover{
                 width: 190px;
                 height: 190px;
+                z-index: 2;
             }
             .message{
+                z-index: 2;
                 margin-left: 20px;
                 height: 190px;
                 display: flex;
@@ -168,7 +202,7 @@
                     white-space: nowrap;
                 }
                 .description{
-                    ine-height: 1.5;
+                    line-height: 1.5;
                     overflow: hidden;
                     height: 58px;
                     word-wrap: break-word;
@@ -183,6 +217,15 @@
             font-weight: 400;
             margin-bottom: 18px;
             margin-top: 40px;
+          .play-all{
+            font-size: 14px;
+            color: #78a9ff;
+            cursor: pointer;
+            &:hover{
+              color: white;
+            }
+
+          }
         }
 
     }
