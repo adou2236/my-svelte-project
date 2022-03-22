@@ -5,7 +5,7 @@
     <div class="title">{name}</div>
     <div class="sub-title">总时长：{duration}</div>
     {#if isInPlaying}
-        <Play32/>
+        <Play32 class="play-icon"/>
     {/if}
 </ClickableTile>
 
@@ -36,7 +36,7 @@
 
 </script>
 
-<style lang="scss" itemscope>
+<style lang="scss">
     .item{
         overflow: hidden;
         height: 80px;
@@ -45,9 +45,16 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        position: relative;
         &:hover{
             text-decoration: none;
         }
+      .play-icon{
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: rotateY(-50%);
+      }
     }
     .title{
         display: inline-block;
@@ -62,7 +69,5 @@
         color: #b8b8b8;
         font-size: 12px;
     }
-    a:hover{
-        text-decoration: none;
-    }
+
 </style>

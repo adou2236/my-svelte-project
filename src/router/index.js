@@ -9,8 +9,3 @@ export const routes = {
     '/:id': Home,
     '*': NotFind
 }
-
-export const routes2 = {
-    '/detail/:id': Details,
-    '/detail': Details,
-}

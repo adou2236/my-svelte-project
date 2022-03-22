@@ -1,7 +1,6 @@
 <div class="album-container">
     {#if data}
-        <a href={`/details/${data.albumID}`}
-           use:link>
+        <div class="album-inner" on:click={()=>push(`/details/${data.albumID}`)}>
             <ImageLoader alt={data.name} src={data.cover.urls[0].url} class="cover">
                 <div slot="loading">
                     <InlineLoading />
@@ -9,7 +8,7 @@
                 <div slot="error">An error occurred.</div>
             </ImageLoader>
             <div class="name">{data.name}</div>
-        </a>
+        </div>
     {:else}
         <SkeletonPlaceholder class="fake-cover"/>
     {/if}
@@ -20,10 +19,9 @@
     import { SkeletonPlaceholder, ImageLoader, InlineLoading} from "carbon-components-svelte";
     import {onMount} from "svelte";
     import { createEventDispatcher } from 'svelte';
-    import {link} from 'svelte-spa-router';
+    import {push} from 'svelte-spa-router'
 
     export let data = null
-    export let index = 0
 
     const dispatch = createEventDispatcher();
 
@@ -41,6 +39,9 @@
         margin: 0 0 1rem 1rem;
         position: relative;
         overflow: hidden;
+      .album-inner{
+        cursor: pointer;
+      }
       .cover{
         width: 100%;
         height: 100%;

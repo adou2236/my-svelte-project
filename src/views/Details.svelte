@@ -20,11 +20,16 @@
             <div class="description">{baseInfo.desc}</div>
         </div>
     </div>
-    <Breadcrumb>
+    <Breadcrumb skeleton="{loading}" count={3} >
         {#each cates as cate,i}
-            <BreadcrumbItem href={`/#/${cate.categoryId}`}>{cate.categoryName}</BreadcrumbItem>
+            <BreadcrumbItem
+                    style="cursor: pointer"
+                    isCurrentPage="{false}"
+                    on:click={push(`/${cate.categoryId}`)}>
+                {cate.categoryName}
+            </BreadcrumbItem>
         {/each}
-        <BreadcrumbItem isCurrentPage>{baseInfo.name}</BreadcrumbItem>
+        <BreadcrumbItem>{baseInfo.name}</BreadcrumbItem>
     </Breadcrumb>
     <div class="shows-header">节目列表({totalItems})
         <span class="play-all"
@@ -55,7 +60,9 @@
     import {Loading, ImageLoader, InlineLoading, Breadcrumb, BreadcrumbItem} from 'carbon-components-svelte'
     import CusotmerPagination from "../components/CusotmerPagination.svelte";
     import ListItem from "../components/ListItem.svelte";
-    import {music_info,play_list} from '../store'
+    import {music_info,play_list,isPause} from '../store'
+    import {push} from 'svelte-spa-router'
+
 
 
 
@@ -104,6 +111,7 @@
         let result = []
         result = await musicDataFormatter(searchData)
         music_info.set(result[0])
+        isPause.set(false)
         play_list.arrayPush(result)
     }
     function handleSequence(e){
@@ -114,6 +122,7 @@
             cover: coverUrl
         }
         music_info.set(data)
+        isPause.set(false)
         play_list.arrayPush([data])
     }
     async function showInit() {

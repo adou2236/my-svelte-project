@@ -5,6 +5,7 @@ import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
+import sveltePreprocess from 'svelte-preprocess';
 
 
 
@@ -46,15 +47,14 @@ export default {
 				// enable run-time checks when not in production
 				dev: !production
 			},
-			preprocess: require("svelte-preprocess")({
-				postcss: {
-					plugins: [
-						require("autoprefixer")({
-							overrideBrowserslist: ["last 1 version", "ie >= 11"],
-						}),
-					],
-				},
-			}),
+			onwarn: (warning, handler) => {
+				const { code, frame } = warning;
+				if (code === "css-unused-selector")
+					return;
+
+				handler(warning);
+			},
+			preprocess: sveltePreprocess()
 		}),
 
 		// we'll extract any component CSS out into

@@ -1,6 +1,5 @@
 import {writable,get} from 'svelte/store';
 
-
 let list_in_storage = JSON.parse(window.localStorage.getItem('play_list'))||[]
 //列表相关操作
 function arrayClass(){
@@ -38,6 +37,7 @@ function musicClass(){
 }
 
 const music_info = musicClass();
+let isPause = writable(true)
 
 //加入
 function arrayPush(originalData,arr){
@@ -76,4 +76,5 @@ function setStorage(arr){
 export {
     play_list,
     music_info,
+    isPause
 }

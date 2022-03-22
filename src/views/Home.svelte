@@ -4,7 +4,7 @@
             <Loading />
         {/if}
         {#each pageData as {album}, i}
-            <Albums data={album} index={i}/>
+            <Albums data={album}/>
         {/each}
     </div>
     <div class="pagination">
@@ -30,6 +30,7 @@
     let totalItems = 0
     let pageData = []
     let loading = false
+    let lastId =  params.id
 
     onMount(() => {
         handleSearch(id,currentPage)
@@ -38,8 +39,13 @@
     $: id = params.id
     $:{
         loading = true
+        if(id!==lastId){
+            currentPage = 1
+            lastId = params.id
+        }
         handleSearch(id,currentPage)
     }
+
 
     function showAlbum(data) {
         console.log(data)
